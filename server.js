@@ -9,9 +9,13 @@ const notesData = require('./db/db.json');
 const router = require('./router');
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 app.use('/', router);
+
+// Sets up the Express app to handle data parsing
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Makes the route "/" into index.html by defult and reads files in public folder
 app.use(express.static('public'));
@@ -34,6 +38,7 @@ app.get('/api/notes', (req, res) => {
 // POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
 app.post('/api/notes', (req, res) => {
   res.json(notesData);
+  // req.body
   // uuid package
 });
 
@@ -41,8 +46,17 @@ app.post('/api/notes', (req, res) => {
 // DELETE /api/notes/:id should receive a query parameter that contains the id of a note to delete.
 // To delete a note, you'll need to read all notes from the db.json file, remove the note with the given id property, and then rewrite the notes to the db.json file.
 app.delete('/api/notes/:id', (req, res) => {
-  res.json(notesData);
-  // uuid package
+  const inputId = req.params.id;
+
+  // Iterate through the notes id to check if it matches `req.params.id`
+  for (let i = 0; i < termData.length; i++) {
+    if (inputId === notesData[i].id) {
+      return res.json('Note has been deleted!');
+    }
+  }
+
+  // Return a message if the id doesn't exist in our DB
+  return res.json('Note not found');
 });
 
 // HTML route: GET * should return the index.html file.
