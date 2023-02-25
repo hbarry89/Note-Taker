@@ -8,9 +8,10 @@ const notesData = require('./db/db.json');
 const app = express();
 const PORT = 3001;
 
-app.use(express.static('public')); // Makes the route "/" index.html by defult
+// Makes the route "/" into index.html by defult and reads files in public folder
+app.use(express.static('public'));
 
-// Not really needed since the above is doing the same: (keeping it for now to keep track of route paths visually in the code)
+// Below code is not needed since the above is doing the same.
 // app.get('/', (req, res) =>
 //   res.sendFile(path.join(__dirname, 'public/index.html'))
 // );
@@ -39,20 +40,3 @@ app.get('*', (req, res) => // If user inputs a route that does not exist in this
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );
-
-// GET route that returns any specific note
-app.get('/api/notes/:title', (req, res) => {
-  // Coerce the specific search note to lowercase
-  const requestedNote = req.params.title.toLowerCase();
-
-  // Iterate through the note name to check if it matches `req.params.title`
-  for (let i = 0; i < notesData.length; i++) {
-    if (requestedNote === notesData[i].title.toLowerCase()) {
-      return res.json(notesData[i]);
-    }
-  }
-
-  // Return a message if the note doesn't exist in our DB
-  return res.json('No match found');
-});
-
