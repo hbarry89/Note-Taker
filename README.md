@@ -22,7 +22,7 @@
 ### Resources :books:
 - Bootcamp Materials
 - Challenge demonstration by TA in class
-- Worked with tutor
+- Tutor
 
 ### Assets :sparkles:
 - [Express Package](https://www.npmjs.com/package/express/v/4.16.4)
