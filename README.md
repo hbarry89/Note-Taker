@@ -2,7 +2,7 @@
 
 ## Description
 
-- The purpose of this repository is for small business owners to be able to write and save notes so they can organize their thoughts and keep track of tasks they need to complete.
+- The purpose of this repository is to create an application for small business owners to be able to write and save notes so they can organize their thoughts and keep track of tasks they need to complete.
 
 
 ## Usage

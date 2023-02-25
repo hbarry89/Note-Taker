@@ -19,9 +19,14 @@ app.get('/notes', (req, res) =>
 );
 
 // Sends data as a json file database (back-end)
-app.get('/api/notes', (req, res) => { // Change route because 2 methods cannot have same route (using api path as it is commonly known route for backend database)
+app.get('/api/notes', (req, res) => { // Change route because same method (get) cannot have same route (using api path as it is commonly known route for backend database)
   res.json(notesData);
 });
+
+// If user inputs a route that does not exist in this application, it will send the user to the main page
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+);
 
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
