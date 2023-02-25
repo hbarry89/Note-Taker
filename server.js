@@ -26,7 +26,10 @@ app.get('/api/notes', (req, res) => {
 });
 
 // POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
-
+app.post('/api/notes', (req, res) => {
+  res.json(notesData);
+  // uuid package
+});
 
 // HTML route: GET * should return the index.html file.
 app.get('*', (req, res) => // If user inputs a route that does not exist in this application, it will send the user to the main page
@@ -36,3 +39,20 @@ app.get('*', (req, res) => // If user inputs a route that does not exist in this
 app.listen(PORT, () =>
   console.log(`Example app listening at http://localhost:${PORT}`)
 );
+
+// GET route that returns any specific note
+app.get('/api/notes/:title', (req, res) => {
+  // Coerce the specific search note to lowercase
+  const requestedNote = req.params.title.toLowerCase();
+
+  // Iterate through the note name to check if it matches `req.params.title`
+  for (let i = 0; i < notesData.length; i++) {
+    if (requestedNote === notesData[i].title.toLowerCase()) {
+      return res.json(notesData[i]);
+    }
+  }
+
+  // Return a message if the note doesn't exist in our DB
+  return res.json('No match found');
+});
+
