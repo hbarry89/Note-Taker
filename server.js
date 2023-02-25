@@ -5,8 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const notesData = require('./db/db.json');
 
+// Router Module
+const router = require('./router');
+
 const app = express();
 const PORT = 3001;
+
+app.use('/', router);
 
 // Makes the route "/" into index.html by defult and reads files in public folder
 app.use(express.static('public'));
