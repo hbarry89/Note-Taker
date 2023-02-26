@@ -23,11 +23,15 @@
 - Bootcamp Materials
 - Challenge demonstration by TA in class
 - Tutor
+- AskBCS Learning Assistant
 
 ### Assets :sparkles:
+- Files and front-end code in *public* folder, *db* folder, and *package.json* are provided by bootcamp materials
 - [Express Package](https://www.npmjs.com/package/express/v/4.16.4)
+- [uuid Package](https://www.npmjs.com/package/uuid)
 
 ### Applications Used :gear:
 - VS Code
+- Heroku
 
 <p align="center">Thank you for visiting! :ribbon:</p>
