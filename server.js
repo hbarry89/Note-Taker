@@ -33,7 +33,7 @@ app.get('/notes', (req, res) =>
 
 // API route: GET /api/notes sould read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
-  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(notesData)));
+  readFromFile('./db/db.json').then((notesData) => res.json(JSON.parse(notesData)));
 });
 
 app.post('/api/notes', (req, res) => {
