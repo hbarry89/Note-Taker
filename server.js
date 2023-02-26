@@ -5,12 +5,13 @@ const path = require('path');
 const fs = require('fs');
 const notesData = require('./db/db.json');
 
-// Router Module
-//const router = require('./router');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Router Module
+//const router = require('./router');
 //app.use('/', router);
 
 // Sets up the Express app to handle data parsing
@@ -45,7 +46,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      //note_id: uuid(),
+      note_id: uuidv4(),
     };
 
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
