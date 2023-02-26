@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const fs =  require('fs');
+const fs =  require('fs'); // For line 80 only
 // On the back end, the application should include a db.json file that will be used to store and retrieve notes using the fs module.
 const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
 //const notesData = require('./db/db.json');
@@ -33,12 +33,7 @@ app.get('/notes', (req, res) =>
 
 // API route: GET /api/notes sould read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
-  readFromFile('./db/db.json').then((notesData) => 
-  {
-    //console.log(notesData);
-    res.json(JSON.parse(notesData));
-    
-  })
+  readFromFile('./db/db.json').then((notesData) => {res.json(JSON.parse(notesData));})
 });
 
 app.post('/api/notes', (req, res) => {
@@ -79,8 +74,8 @@ app.delete('/api/notes/:id', (req, res) => {
     // Iterate through the notes id to check if it matches `req.params.id`
     for (let i = 0; i < notesData.length; i++) {
       if (inputId === notesData[i].id) {
-        notesData.splice(i, 1) //get rid of that specific index from
-
+        notesData.splice(i, 1) //get rid of that specific index
+        // Had to use writefile function directly as it did not work from the fsUtils in helpers folder.
         fs.writeFile('./db/db.json', JSON.stringify(notesData, null, 4), (err) =>{
         err ? console.error(err) : console.log(`\nDeleted successfully`)
         res.status(200).json(`\nDeleted successfully`);
