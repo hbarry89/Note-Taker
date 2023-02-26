@@ -6,12 +6,12 @@ const fs = require('fs');
 const notesData = require('./db/db.json');
 
 // Router Module
-const router = require('./router');
+//const router = require('./router');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use('/', router);
+//app.use('/', router);
 
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
@@ -37,9 +37,49 @@ app.get('/api/notes', (req, res) => {
 
 // POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
 app.post('/api/notes', (req, res) => {
-  res.json(notesData);
-  // req.body
-  // uuid package
+  const { title, text } = req.body;
+
+  // If all the required properties are present
+  if (title && text) {
+    // Variable for the object we will save
+    const newNote = {
+      title,
+      text,
+      //note_id: uuid(),
+    };
+
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // Convert string into JSON object
+        const parsedNotes = JSON.parse(data);
+
+        // Add a new review
+        parsedNotes.push(newNote);
+
+        // Write updated notes back to the file
+        fs.writeFile(
+          './db/db.json',
+          JSON.stringify(parsedNotes, null, 4),
+          (writeErr) =>
+            writeErr
+              ? console.error(writeErr)
+              : console.info('Successfully updated reviews!')
+        );
+      }
+    });
+
+    const response = {
+      status: 'success',
+      body: newNote,
+    };
+
+    console.log(response);
+    res.status(201).json(response);
+  } else {
+    res.status(500).json('Error in posting note');
+  }
 });
 
 //Bonus
