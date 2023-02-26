@@ -46,7 +46,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuidv4(),
+      id: uuidv4(),
     };
 
     fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -66,7 +66,7 @@ app.post('/api/notes', (req, res) => {
           (writeErr) =>
             writeErr
               ? console.error(writeErr)
-              : console.info('Successfully updated reviews!')
+              : console.info('Successfully updated notes!')
         );
       }
     });
@@ -91,7 +91,7 @@ app.delete('/api/notes/:id', (req, res) => {
   const inputId = req.params.id;
 
   // Iterate through the notes id to check if it matches `req.params.id`
-  for (let i = 0; i < termData.length; i++) {
+  for (let i = 0; i < notesData.length; i++) {
     if (inputId === notesData[i].id) {
       return res.json('Note has been deleted!');
     }
