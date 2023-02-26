@@ -33,11 +33,11 @@ app.get('/notes', (req, res) =>
 
 // API route: GET /api/notes sould read the db.json file and return all saved notes as JSON.
 app.get('/api/notes', (req, res) => {
-  res.json(notesData);
+  readFromFile('./db/db.json').then((data) => res.json(JSON.parse(notesData)));
 });
 
-// POST /api/notes should receive a new note to save on the request body, add it to the db.json file, and then return the new note to the client. You'll need to find a way to give each note a unique id when it's saved (look into npm packages that could do this for you).
 app.post('/api/notes', (req, res) => {
+  // Destructuring assignment for the items in req.body
   const { title, text } = req.body;
 
   // If all the required properties are present
@@ -46,40 +46,19 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
       title,
       text,
-      id: uuidv4(),
+      id: uuid(),
     };
 
-    fs.readFile('./db/db.json', 'utf8', (err, data) => {
-      if (err) {
-        console.error(err);
-      } else {
-        // Convert string into JSON object
-        const parsedNotes = JSON.parse(data);
-
-        // Add a new review
-        parsedNotes.push(newNote);
-
-        // Write updated notes back to the file
-        fs.writeFile(
-          './db/db.json',
-          JSON.stringify(parsedNotes, null, 4),
-          (writeErr) =>
-            writeErr
-              ? console.error(writeErr)
-              : console.info('Successfully updated notes!')
-        );
-      }
-    });
+    readAndAppend(newNote, './db/db.json');
 
     const response = {
       status: 'success',
       body: newNote,
     };
 
-    console.log(response);
-    res.status(201).json(response);
+    res.json(response);
   } else {
-    res.status(500).json('Error in posting note');
+    res.json('Error in posting note');
   }
 });
 
